@@ -12,5 +12,5 @@ export interface User {
     lastAccess?:   Date;
     isActive?:     boolean;
     token:        string;
-    role:         string;
+    role?:         string;
 }
