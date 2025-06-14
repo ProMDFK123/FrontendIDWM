@@ -9,6 +9,7 @@ import { Product } from "@/interfaces/Product"; // Asegúrate de que esta ruta s
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"; // Asegúrate de que esta ruta sea correcta
 import { useProductStore } from "@/store/ProductStore"; // Asegúrate de que esta ruta sea correcta
 import { ProductCard } from "@/components/products/ProductCard";
+import { Navbar } from "@/components/Navbar";
 // Si tienes un componente Navbar, impórtalo aquí
 // import { Navbar } from "@/components/Navbar"; // Descomenta si tienes un Navbar
 
@@ -87,7 +88,7 @@ export default function ViewProductsPage() {
     return (
         <div className="min-h-screen bg-gray-100">
             {/* Navbar */}
-            {/* {<Navbar />} */} {/* Descomenta si tienes un Navbar */}
+            <Navbar />
 
             {/* Banner */}
             {/* Asumo que 'tienda.jpg' está en tu carpeta public/images o similar */}
@@ -111,7 +112,7 @@ export default function ViewProductsPage() {
                     <p className="text-gray-600 text-lg mt-10">No hay productos disponibles en este momento.</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full max-w-7xl">
-                        {products.map((product) => (
+                        {products.map((product: Product) => (
                             <ProductCard
                                 key={product.id}
                                 product={product}
