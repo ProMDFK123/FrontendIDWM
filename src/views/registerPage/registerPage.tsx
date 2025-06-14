@@ -12,8 +12,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
-// --- CAMBIO 1: Modificación de formSchema ---
-// Incluimos confirmPassword y una validación de refine para que password y confirmPassword coincidan.
+
 const formSchema = z.object({
     firstName: z.string()
         .min(1, { message: "El nombre es obligatorio" })
@@ -24,18 +23,18 @@ const formSchema = z.object({
     email: z.string()
         .email({ message: "El correo electrónico debe ser válido" })
         .max(100, { message: "El correo electrónico no puede tener más de 100 caracteres" }),
-    // Asegúrate de que este nombre de campo coincida con lo que tu backend espera ('telephone' o 'thelephone')
+
     thelephone: z.string()
         .regex(/^\+?\d{9,15}$/, { message: "El teléfono debe ser válido. Incluye +código_país si es internacional." })
-        .min(9, { message: "El teléfono debe tener al menos 9 dígitos." }), // Flexibilizamos la longitud mínima
+        .min(9, { message: "El teléfono debe tener al menos 9 dígitos." }), 
     password: z.string()
         .min(6, { message: "La contraseña debe tener al menos 6 caracteres" })
         .max(100, { message: "La contraseña no puede tener más de 100 caracteres" }),
     confirmPassword: z.string()
-        .min(1, { message: "Confirma tu contraseña" }), // Campo para la confirmación
+        .min(1, { message: "Confirma tu contraseña" }), 
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",
-    path: ["confirmPassword"], // Esto hará que el error aparezca en el campo confirmPassword
+    path: ["confirmPassword"], 
 });
 
 export const RegisterPage = () => {
@@ -49,9 +48,9 @@ export const RegisterPage = () => {
             firstName: '',
             lastName: '',
             email: '',
-            thelephone: '', // Asegúrate de que este nombre de campo sea correcto
+            thelephone: '', 
             password: '',
-            confirmPassword: '', // --- CAMBIO 2: Añadimos default value para confirmPassword ---
+            confirmPassword: '', 
         },
     });
 
@@ -59,23 +58,19 @@ export const RegisterPage = () => {
         try {
             console.log("Valores enviados para registro:", values);
 
-            // Si el backend espera un campo 'confirmPassword' que no esté en el modelo
-            // o no lo necesitas enviar directamente, puedes crear un objeto con solo los campos que requiere el backend.
             const { firstName, lastName, email, thelephone, password, confirmPassword } = values;
 
-            // --- CAMBIO 3: Objeto a enviar al backend con los campos correctos ---
-            // Aquí puedes ajustar los campos si tu backend necesita algo ligeramente diferente
-            // por ejemplo, si 'telephone' es 'thelephone' en el backend o si no necesita 'confirmPassword'.
+
             const dataToSend = {
                 firstName,
                 lastName,
                 email,
-                thelephone, // Asegúrate de que este nombre coincida con tu backend (no 'thelephone')
+                thelephone, 
                 password,
-                confirmPassword, // Incluye confirmPassword si tu backend lo espera para validación
+                confirmPassword, 
             };
 
-            const { data } = await ApiBackend.post<ResponseAPI>('Auth/register', dataToSend); // Usamos dataToSend
+            const { data } = await ApiBackend.post<ResponseAPI>('Auth/register', dataToSend); 
 
             if (!data.success) {
                 console.error("Error en la respuesta del servidor:", data.message);
@@ -88,8 +83,6 @@ export const RegisterPage = () => {
             setErrorBool(false);
 
             if (data.data) {
-                // Asumimos que tu backend de registro puede devolver un token y datos de usuario para autologin.
-                // Si no es así, deberías quitar esta parte y solo redirigir.
                 const user_: User = {
                     email: data.data.email,
                     lastName: data.data.lastName,
@@ -97,16 +90,10 @@ export const RegisterPage = () => {
                     token: data.data.token,
                 }
                 auth(user_);
-                // Redirigir a alguna página (ej. dashboard) después del autologin
-                // router.push('/dashboard');
             } else {
                 console.log("Registro exitoso. Redirigiendo a la página de inicio de sesión.");
-                setErrors('¡Registro exitoso! Ahora puedes iniciar sesión.'); // Mensaje de éxito visible
-                setErrorBool(false); // Es un éxito, no un error
-                // Redirigir a la página de login
-                // import { useRouter } from 'next/navigation';
-                // const router = useRouter();
-                // router.push('/login');
+                setErrors('¡Registro exitoso! Ahora puedes iniciar sesión.'); 
+                setErrorBool(false); 
             }
 
         } catch (error: any) {
@@ -198,7 +185,7 @@ export const RegisterPage = () => {
                         {/* Campo: Teléfono */}
                         <FormField
                             control={form.control}
-                            name="thelephone" // Asegúrate de que este nombre sea 'telephone' para coincidir con el esquema
+                            name="thelephone" 
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Teléfono</FormLabel>
