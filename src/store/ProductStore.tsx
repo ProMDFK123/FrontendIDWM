@@ -7,7 +7,7 @@ interface ProductState {
     loading: boolean;
     error: string | null;
     filters: ProductFilters;
-    fetchProducts: (filters: ProductFilters) => Promise<void>;
+    fetchProducts: () => Promise<void>;
     setFilters: (filters: Partial<ProductFilters>) => void;
 }
 export const useProductStore = create<ProductState>((set,get) => ({
@@ -18,7 +18,7 @@ export const useProductStore = create<ProductState>((set,get) => ({
         PageNumber: 1,
         PageSize: 10,
     },
-    fetchProducts: async (filters: ProductFilters) => {
+    fetchProducts: async () => {
         set({ loading: true, error: null });
         try {
             const {filters} = get();
