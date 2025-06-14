@@ -1,17 +1,14 @@
-// src/app/products/page.tsx (o la ruta donde tengas tu ViewProductsPage)
 "use client";
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ApiBackend } from "@/clients/axios"; // Asegúrate de que esta ruta sea correcta
-import { ResponseAPI } from "@/interfaces/ResponseAPI"; // Asegúrate de que esta ruta sea correcta
-import { Product } from "@/interfaces/Product"; // Asegúrate de que esta ruta sea correcta
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"; // Asegúrate de que esta ruta sea correcta
-import { useProductStore } from "@/store/ProductStore"; // Asegúrate de que esta ruta sea correcta
+import { ApiBackend } from "@/clients/axios"; 
+import { ResponseAPI } from "@/interfaces/ResponseAPI"; 
+import { Product } from "@/interfaces/Product"; 
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"; 
+import { useProductStore } from "@/store/ProductStore"; 
 import { ProductCard } from "@/components/products/ProductCard";
 import { Navbar } from "@/components/Navbar";
-// Si tienes un componente Navbar, impórtalo aquí
-// import { Navbar } from "@/components/Navbar"; // Descomenta si tienes un Navbar
 
 export default function ViewProductsPage() {
     // Hooks de estado y store
@@ -22,13 +19,8 @@ export default function ViewProductsPage() {
 
     // Efecto para cargar productos cuando cambian los filtros
     useEffect(() => {
-        // Asumiendo que fetchProducts maneja internamente la lógica de errores o que la quieres manejar aquí
         const loadProducts = async () => {
             try {
-                // Aquí, asumo que fetchProducts ya maneja la lógica de la API.
-                // Si fetchProducts solo actualiza el estado y no hace la llamada API directamente
-                // o si quieres manejar el error aquí, puedes añadir try/catch.
-                // Para este ejemplo, asumo que useProductStore ya maneja el error de carga y lo refleja en el store.
                 await fetchProducts(); // Llama a la función del store para obtener los productos
                 setError(null); // Limpia cualquier error previo si la carga fue exitosa
             } catch (err: any) {
@@ -43,7 +35,7 @@ export default function ViewProductsPage() {
         };
 
         loadProducts();
-    }, [filters, fetchProducts]); // Asegúrate de que fetchProducts sea estable o memorizado si lo usas en un useEffect
+    }, [filters, fetchProducts]);
 
     // Manejador de click en producto para abrir el modal
     const handleProductClick = (product: Product) => {
@@ -91,7 +83,6 @@ export default function ViewProductsPage() {
             <Navbar />
 
             {/* Banner */}
-            {/* Asumo que 'tienda.jpg' está en tu carpeta public/images o similar */}
             <div
                 className="relative w-full h-64 md:h-96 bg-cover bg-center flex items-center justify-center text-center p-4"
                 style={{ backgroundImage: "url('/images/tienda.jpg')" }} // Asegúrate de la ruta de la imagen
