@@ -8,6 +8,8 @@ import { AuthContext } from "@/contexts/auth/AuthContext";
 import { ResponseAPI } from "@/interfaces/ResponseAPI";
 import { User } from "@/interfaces/User";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowLeftIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -37,6 +39,7 @@ export const LoginPage = () => {
     const [errors, setErrors] = useState<string | null>(null);
     const [errorBool, setErrorBool] = useState<boolean>(false);
     const { auth, user } = useContext(AuthContext);
+    const router = useRouter();
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
@@ -62,6 +65,7 @@ export const LoginPage = () => {
             }
 
             auth(user_);
+            router.push('/');
         }
         catch (error: any) {
             let errorMessage = error.response.data.message;
@@ -86,6 +90,9 @@ export const LoginPage = () => {
                 <p className="mt-10 text-xs md:text-sm text-gray-200 text-center">
                     © 2025 - Todos los derechos reservados.
                 </p>
+                <Button variant={"outline"} className="mt-4 text-blue-600" onClick={() => router.back()}>
+                    <ArrowLeftIcon/> Volver
+                </Button>
             </div>
 
             {/*Lado derecho*/}
