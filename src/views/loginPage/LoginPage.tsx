@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { set } from "zod/v4-mini";
+import { set } from "zod/v4-mini"; // Esto parece ser un import residual, puedes considerarlo eliminar si no se usa.
 
 const formSchema = z.object({
     email: z.string().email({
@@ -104,7 +104,8 @@ export const LoginPage = () => {
                     </h3>
                     <p className="mb-4 text-sm text-gray-600 text-center md:text-left">
                         ¿No tienes cuenta?{' '}
-                        <a href="#" className="text-blue-600 underline">
+                        {/* --- CAMBIO AQUÍ: href a /register --- */}
+                        <a href="/register" className="text-blue-600 underline">
                             Crea una aquí
                         </a>, es gratis.
                     </p>

@@ -1,3 +1,4 @@
+// src/app/register/page.tsx (o donde tengas tu RegisterPage)
 "use client";
 
 import { ApiBackend } from "@/clients/axios";
@@ -11,6 +12,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { useRouter } from "next/navigation"; // <-- Importa useRouter
+
+// Considera eliminar 'set' de 'zod/v4-mini' si no se usa.
+// import { set } from "zod/v4-mini";
 
 
 const formSchema = z.object({
@@ -26,21 +31,22 @@ const formSchema = z.object({
 
     thelephone: z.string()
         .regex(/^\+?\d{9,15}$/, { message: "El teléfono debe ser válido. Incluye +código_país si es internacional." })
-        .min(9, { message: "El teléfono debe tener al menos 9 dígitos." }), 
+        .min(9, { message: "El teléfono debe tener al menos 9 dígitos." }),
     password: z.string()
         .min(6, { message: "La contraseña debe tener al menos 6 caracteres" })
         .max(100, { message: "La contraseña no puede tener más de 100 caracteres" }),
     confirmPassword: z.string()
-        .min(1, { message: "Confirma tu contraseña" }), 
+        .min(1, { message: "Confirma tu contraseña" }),
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",
-    path: ["confirmPassword"], 
+    path: ["confirmPassword"],
 });
 
 export const RegisterPage = () => {
     const [errors, setErrors] = useState<string | null>(null);
     const [errorBool, setErrorBool] = useState<boolean>(false);
     const { auth } = useContext(AuthContext);
+    const router = useRouter(); // <-- Inicializa useRouter
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -48,9 +54,9 @@ export const RegisterPage = () => {
             firstName: '',
             lastName: '',
             email: '',
-            thelephone: '', 
+            thelephone: '',
             password: '',
-            confirmPassword: '', 
+            confirmPassword: '',
         },
     });
 
@@ -65,12 +71,12 @@ export const RegisterPage = () => {
                 firstName,
                 lastName,
                 email,
-                thelephone, 
+                thelephone,
                 password,
-                confirmPassword, 
+                confirmPassword,
             };
 
-            const { data } = await ApiBackend.post<ResponseAPI>('Auth/register', dataToSend); 
+            const { data } = await ApiBackend.post<ResponseAPI>('Auth/register', dataToSend);
 
             if (!data.success) {
                 console.error("Error en la respuesta del servidor:", data.message);
@@ -82,6 +88,7 @@ export const RegisterPage = () => {
             setErrors(null);
             setErrorBool(false);
 
+            // Si el registro es exitoso y el backend devuelve datos de usuario (por ejemplo, para autologin)
             if (data.data) {
                 const user_: User = {
                     email: data.data.email,
@@ -89,20 +96,23 @@ export const RegisterPage = () => {
                     firstName: data.data.firstName,
                     token: data.data.token,
                 }
-                auth(user_);
+                auth(user_); // Autentica al usuario si hay datos
+                router.push('/'); // <-- Redirige a la página inicial (root)
             } else {
+                // Si el registro es exitoso pero no hay autologin (backend no devuelve token/usuario)
                 console.log("Registro exitoso. Redirigiendo a la página de inicio de sesión.");
-                setErrors('¡Registro exitoso! Ahora puedes iniciar sesión.'); 
-                setErrorBool(false); 
+                setErrors('¡Registro exitoso! Ahora puedes iniciar sesión.');
+                setErrorBool(false);
+                // Opcional: Podrías redirigir a /login aquí si quieres que el usuario inicie sesión manualmente
+                router.push('/login'); // <-- Redirige a /login para que el usuario inicie sesión
             }
 
         } catch (error: any) {
             let errorMessage = "Ocurrió un error inesperado al registrar.";
-            // Si el backend envía un mensaje de error específico
             if (error.response && error.response.data && error.response.data.message) {
                 errorMessage = error.response.data.message;
             } else if (error.message) {
-                errorMessage = error.message; // Para errores de red o Axios
+                errorMessage = error.message;
             }
             console.error("Error al enviar el formulario de registro:", errorMessage);
 
@@ -185,7 +195,7 @@ export const RegisterPage = () => {
                         {/* Campo: Teléfono */}
                         <FormField
                             control={form.control}
-                            name="thelephone" 
+                            name="thelephone"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Teléfono</FormLabel>
@@ -214,7 +224,7 @@ export const RegisterPage = () => {
                             )}
                         />
 
-                        {/* --- CAMBIO 4: Nuevo Campo: Confirmar Contraseña --- */}
+                        {/* Campo: Confirmar Contraseña */}
                         <FormField
                             control={form.control}
                             name="confirmPassword"
@@ -224,7 +234,7 @@ export const RegisterPage = () => {
                                     <FormControl>
                                         <Input type="password" placeholder="********" {...field} />
                                     </FormControl>
-                                    <FormMessage /> {/* Mostrará el error si no coinciden */}
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -246,6 +256,7 @@ export const RegisterPage = () => {
 
                 <p className="mt-4 text-sm text-gray-600">
                     ¿Ya tienes una cuenta?{' '}
+                    {/* --- CAMBIO AQUÍ: href a /login --- */}
                     <a href="/login" className="text-blue-600 hover:underline">
                         Inicia sesión aquí
                     </a>
