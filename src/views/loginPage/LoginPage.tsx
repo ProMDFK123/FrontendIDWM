@@ -90,7 +90,7 @@ export const LoginPage = () => {
                 <p className="mt-10 text-xs md:text-sm text-gray-200 text-center">
                     © 2025 - Todos los derechos reservados.
                 </p>
-                <Button variant={"outline"} className="mt-4 text-blue-600" onClick={() => router.back()}>
+                <Button variant={"outline"} className="mt-4 text-blue-600" onClick={() => router.push('/')}>
                     <ArrowLeftIcon/> Volver
                 </Button>
             </div>
