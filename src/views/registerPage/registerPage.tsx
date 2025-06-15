@@ -1,4 +1,4 @@
-// src/app/register/page.tsx (o donde tengas tu RegisterPage)
+
 "use client";
 
 import { ApiBackend } from "@/clients/axios";
@@ -12,10 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { useRouter } from "next/navigation"; // <-- Importa useRouter
-
-// Considera eliminar 'set' de 'zod/v4-mini' si no se usa.
-// import { set } from "zod/v4-mini";
+import { useRouter } from "next/navigation"; 
 
 
 const formSchema = z.object({
@@ -46,7 +43,7 @@ export const RegisterPage = () => {
     const [errors, setErrors] = useState<string | null>(null);
     const [errorBool, setErrorBool] = useState<boolean>(false);
     const { auth } = useContext(AuthContext);
-    const router = useRouter(); // <-- Inicializa useRouter
+    const router = useRouter(); 
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -88,7 +85,6 @@ export const RegisterPage = () => {
             setErrors(null);
             setErrorBool(false);
 
-            // Si el registro es exitoso y el backend devuelve datos de usuario (por ejemplo, para autologin)
             if (data.data) {
                 const user_: User = {
                     email: data.data.email,
@@ -96,15 +92,14 @@ export const RegisterPage = () => {
                     firstName: data.data.firstName,
                     token: data.data.token,
                 }
-                auth(user_); // Autentica al usuario si hay datos
-                router.push('/'); // <-- Redirige a la página inicial (root)
+                auth(user_); 
+                router.push('/'); 
             } else {
-                // Si el registro es exitoso pero no hay autologin (backend no devuelve token/usuario)
+                
                 console.log("Registro exitoso. Redirigiendo a la página de inicio de sesión.");
                 setErrors('¡Registro exitoso! Ahora puedes iniciar sesión.');
                 setErrorBool(false);
-                // Opcional: Podrías redirigir a /login aquí si quieres que el usuario inicie sesión manualmente
-                router.push('/login'); // <-- Redirige a /login para que el usuario inicie sesión
+                router.push('/login'); 
             }
 
         } catch (error: any) {
@@ -123,7 +118,7 @@ export const RegisterPage = () => {
 
     return (
         <div className="flex flex-col md:flex-row h-screen">
-            {/* Lado izquierdo (similar a tu Login) */}
+            {/* Lado izquierdo */}
             <div className="md:w-1/2 w-full bg-blue-700 text-white flex flex-col justify-center items-center p-8">
                 <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">
                     Únete a nuestra comunidad

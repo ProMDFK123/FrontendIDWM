@@ -11,18 +11,16 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { Navbar } from "@/components/Navbar";
 
 export default function ViewProductsPage() {
-    // Hooks de estado y store
     const [error, setError] = useState<string | null>(null);
     const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] = useState(false);
     const { products, loading, fetchProducts, filters } = useProductStore();
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-    // Efecto para cargar productos cuando cambian los filtros
     useEffect(() => {
         const loadProducts = async () => {
             try {
-                await fetchProducts(); // Llama a la función del store para obtener los productos
-                setError(null); // Limpia cualquier error previo si la carga fue exitosa
+                await fetchProducts();
+                setError(null); 
             } catch (err: any) {
                 let errorMessage = "Error al cargar los productos.";
                 if (err.response && err.response.data && err.response.data.message) {
@@ -37,24 +35,20 @@ export default function ViewProductsPage() {
         loadProducts();
     }, [filters, fetchProducts]);
 
-    // Manejador de click en producto para abrir el modal
     const handleProductClick = (product: Product) => {
         setSelectedProduct(product);
         setIsProductDetailsModalOpen(true);
     };
 
-    // Manejador para cerrar el modal
     const handleCloseModal = () => {
         setIsProductDetailsModalOpen(false);
         setSelectedProduct(null);
     };
 
-    // Renderizado condicional para el estado de carga
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
                 <div className="text-center py-20 text-lg font-semibold text-blue-700">Cargando Productos...</div>
-                {/* Opcional: un spinner o animación de carga */}
                 <svg className="animate-spin -ml-1 mr-3 h-10 w-10 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -63,7 +57,6 @@ export default function ViewProductsPage() {
         );
     }
 
-    // Renderizado condicional para el estado de error
     if (error) {
         return (
             <div className="flex flex-col justify-center items-center h-screen text-red-600 text-lg p-4 text-center bg-gray-100">
@@ -127,10 +120,10 @@ export default function ViewProductsPage() {
                         <div className="flex flex-col items-center py-6">
                             <img
                                 src={selectedProduct.urls && selectedProduct.urls.length > 0 ? selectedProduct.urls[0] : '/images/placeholder.png'}
-                                alt={selectedProduct.name || "Imagen de producto"} // Asegurarse de que alt sea string
+                                alt={selectedProduct.name || "Imagen de producto"} 
                                 className="w-64 h-64 object-contain mb-5 rounded-md border border-gray-200"
                                 onError={(e) => {
-                                    (e.target as HTMLImageElement).src = '/images/placeholder.png'; // Fallback para imagen
+                                    (e.target as HTMLImageElement).src = '/images/placeholder.png'; 
                                 }}
                             />
                             <p className="text-blue-700 font-bold text-3xl mb-3">${selectedProduct.price.toFixed(2)}</p>
