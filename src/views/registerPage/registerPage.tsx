@@ -13,6 +13,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { useRouter } from "next/navigation"; 
+import { ArrowLeftIcon } from "lucide-react";
 
 
 const formSchema = z.object({
@@ -129,6 +130,9 @@ export const RegisterPage = () => {
                 <p className="mt-10 text-xs md:text-sm text-gray-200 text-center">
                     &copy; 2025 WebMóvil. Todos los derechos reservados.
                 </p>
+                <Button variant={"outline"} className="mt-4 text-blue-600" onClick={() => router.back()}>
+                    <ArrowLeftIcon/> Volver
+                </Button>
             </div>
 
             {/* Lado derecho (el formulario de registro) */}
