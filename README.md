@@ -39,6 +39,12 @@ npm run dev
 ## 🧪 Datos de Prueba
 El backend genera datos falsos automáticamente al iniciarse si la base de datos está vacía, por lo tanto el frontend puede consumir endpoints de prueba desde el primer momento.
 
+## 🎨 Prototipo
+Puedes visualizar el prototipo del proyecto en el siguiente enlace:
+[🔗 Ver Prototipo en Figma](https://www.figma.com/file/TuEnlaceDeFigmaAquí)
+Este prototipo ilustra la estructura visual y funcional del sistema, incluyendo los flujos principales de usuario y el diseño de las interfaces.
+
+
 ## 🌐 Despliegue
 Para desplegar en Vercel u otra plataforma similar, asegúrate de configurar las variables de entorno en el panel de configuración del proyecto.
 
