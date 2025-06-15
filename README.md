@@ -41,7 +41,7 @@ El backend genera datos falsos automáticamente al iniciarse si la base de datos
 
 ## 🎨 Prototipo
 Puedes visualizar el prototipo del proyecto en el siguiente enlace:
-[🔗 Ver Prototipo en Figma](https://www.figma.com/file/TuEnlaceDeFigmaAquí)  
+[🔗 Ver Prototipo en Figma](https://www.figma.com/design/gxt7FeC5VxpNYZda5phaUt/idwm?node-id=0-1&t=3tMVCoYLxo9vCYtY-1)  
 Este prototipo ilustra la estructura visual y funcional del sistema, incluyendo los flujos principales de usuario y el diseño de las interfaces.
 
 
