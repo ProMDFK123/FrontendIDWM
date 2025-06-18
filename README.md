@@ -44,6 +44,10 @@ Puedes visualizar el prototipo del proyecto en el siguiente enlace:
 [🔗 Ver Prototipo en Figma](https://www.figma.com/design/gxt7FeC5VxpNYZda5phaUt/idwm?node-id=0-1&t=3tMVCoYLxo9vCYtY-1)  
 Este prototipo ilustra la estructura visual y funcional del sistema, incluyendo los flujos principales de usuario y el diseño de las interfaces.
 
+## 🔗 Repositorio del Backend
+El código fuente del backend se encuentra en el siguiente repositorio:
+[📦 Ver Repositorio Backend](https://github.com/ProMDFK123/TallerIDWM)  
+Este repositorio contiene la lógica del servidor, controladores, modelos y conexión a la base de datos.
 
 ## 🌐 Despliegue
 Para desplegar en Vercel u otra plataforma similar, asegúrate de configurar las variables de entorno en el panel de configuración del proyecto.
