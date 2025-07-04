@@ -2,13 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ApiBackend } from "@/clients/axios"; 
-import { ResponseAPI } from "@/interfaces/ResponseAPI"; 
 import { Product } from "@/interfaces/Product"; 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"; 
 import { useProductStore } from "@/store/ProductStore"; 
 import { ProductCard } from "@/components/products/ProductCard";
-import { Navbar } from "@/components/Navbar";
 
 export default function ViewProductsPage() {
     const [error, setError] = useState<string | null>(null);
@@ -72,9 +69,6 @@ export default function ViewProductsPage() {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            {/* Navbar */}
-            <Navbar />
-
             {/* Banner */}
             <div
                 className="relative w-full h-64 md:h-96 bg-cover bg-center flex items-center justify-center text-center p-4"

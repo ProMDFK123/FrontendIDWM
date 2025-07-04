@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AuthContext } from "@/contexts/auth/AuthContext";
+import { DecodeJWT } from "@/helpers/DecodeJWT";
 import { ResponseAPI } from "@/interfaces/ResponseAPI";
 import { User } from "@/interfaces/User";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,7 +44,7 @@ export const LoginPage = () => {
 
     const onSubmit = async(values: z.infer<typeof formSchema>) => {
         try{
-            console.log("Valores enviados:", values);;
+            console.log("Valores enviados:", values);
             const {data} = await ApiBackend.post<ResponseAPI>('Auth/login', values);
 
             if(!data.success) {
@@ -52,29 +53,42 @@ export const LoginPage = () => {
                 setErrorBool(true);
                 return;
             }
-
             setErrors(null);
             setErrorBool(false);
 
             const data_ = data.data as ResponseAPI
+            const payload = DecodeJWT(data_.token);
+            if(!payload) {
+                console.error("Error al decodificar el token: ", data_.token);
+                setErrors('Error al decodificar el token');
+                setErrorBool(true);
+                return;
+            }
             const user_: User = {
                 email: data_.email,
                 lastName: data_.lastName,
                 firstName: data_.firstName,
                 token: data_.token,
+                role: payload.role,
             }
 
+            localStorage.setItem('token', data_.token);
+
+            console.log("Usuario autenticado:", user_);
             auth(user_);
-            router.push('/');
+            if(payload.role === 'Admin') {
+                router.push('/admin');
+            } else if(payload.role === 'User') {
+                router.push('/client');
+            }
         }
         catch (error: any) {
             let errorMessage = error.response.data.message;
             console.error("Error al enviar el formulario:", errorMessage);
-
             setErrors(errorMessage);
             setErrorBool(true);
         }
-    };
+    }
 
     return (
         <div className="flex flex-col md:flex-row h-screen">
